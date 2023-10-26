@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Website</title>
+  <style>
+    html, body { height: 100%; margin: 0; }
+    body { display: flex; }
+    v-graph { flex: 1; }
+  </style>
+</head>
+<body>
+  <v-graph type="class-diagram"></v-graph>
+
+  <script type="module">
+    import './class-diagram.esm.js';
+    import { data } from './class-data.esm.js';
+
+    const $graph = document.querySelector('v-graph');
+    for (let key in data) {
+      $graph.data.setProperty(key, data[key]);
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+/design
+/scripts
+/playwright
+/source
+/test
+/example
+.*
