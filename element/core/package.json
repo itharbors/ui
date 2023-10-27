@@ -1,6 +1,6 @@
 {
   "name": "@itharbors/ui-core",
-  "version": "0.2.3",
+  "version": "1.0.0",
   "description": "",
   "main": "./dist/index.js",
   "scripts": {
