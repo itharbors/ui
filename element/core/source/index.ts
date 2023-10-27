@@ -39,29 +39,29 @@ export const style = {
      */
     solid: /*css*/`
     :host {
-        --background-color: var(--color-default);
-        --font-color: var(--color-default-contrast);
-        --border-color: var(--color-default-line);
+        --background-color: var(--ui-color-default);
+        --font-color: var(--ui-color-default-contrast);
+        --border-color: var(--ui-color-default-line);
     }
     :host([color="primary"]) {
-        --background-color: var(--color-primary);
-        --font-color: var(--color-primary-contrast);
-        --border-color: var(--color-primary-line);
+        --background-color: var(--ui-color-primary);
+        --font-color: var(--ui-color-primary-contrast);
+        --border-color: var(--ui-color-primary-line);
     }
     :host([color="success"]) {
-        --background-color: var(--color-success);
-        --font-color: var(--color-success-contrast);
-        --border-color: var(--color-success-line);
+        --background-color: var(--ui-color-success);
+        --font-color: var(--ui-color-success-contrast);
+        --border-color: var(--ui-color-success-line);
     }
     :host([color="danger"]) {
-        --background-color: var(--color-danger);
-        --font-color: var(--color-danger-contrast);
-        --border-color: var(--color-danger-line);
+        --background-color: var(--ui-color-danger);
+        --font-color: var(--ui-color-danger-contrast);
+        --border-color: var(--ui-color-danger-line);
     }
-    :host([color="wranning"]) {
-        --background-color: var(--color-wranning);
-        --font-color: var(--color-wranning-contrast);
-        --border-color: var(--color-wranning-line);
+    :host([color="warn"]) {
+        --background-color: var(--ui-color-warn);
+        --font-color: var(--ui-color-warn-contrast);
+        --border-color: var(--ui-color-warn-line);
     }
     :host([disabled]) {
         opacity: 0.4;
@@ -77,24 +77,24 @@ export const style = {
     hollow: /*css*/`
     :host {
         --background-color: transparent;
-        --font-color: var(--color-default-contrast);
-        --border-color: var(--color-default-line);
+        --font-color: var(--ui-color-default-contrast);
+        --border-color: var(--ui-color-default-line);
     }
     :host([color="primary"]) {
-        --font-color: var(--color-primary);
-        --border-color: var(--color-primary-line);
+        --font-color: var(--ui-color-primary);
+        --border-color: var(--ui-color-primary-line);
     }
     :host([color="success"]) {
-        --font-color: var(--color-success);
-        --border-color: var(--color-success-line);
+        --font-color: var(--ui-color-success);
+        --border-color: var(--ui-color-success-line);
     }
     :host([color="danger"]) {
-        --font-color: var(--color-danger);
-        --border-color: var(--color-danger-line);
+        --font-color: var(--ui-color-danger);
+        --border-color: var(--ui-color-danger-line);
     }
-    :host([color="wranning"]) {
-        --font-color: var(--color-wranning);
-        --border-color: var(--color-wranning-line);
+    :host([color="warn"]) {
+        --font-color: var(--ui-color-warn);
+        --border-color: var(--ui-color-warn-line);
     }
     :host([disabled]) {
         opacity: 0.4;
@@ -108,11 +108,11 @@ export const style = {
     :host {
         display: inline-flex;
     
-        --line-height: calc(var(--size-line) * 1px);
-        --font-size: calc(var(--size-font) * 1px);
+        --line-height: calc(var(--ui-size-line) * 1px);
+        --font-size: calc(var(--ui-size-font) * 1px);
     
-        --padding-row: calc((var(--size-line) - var(--size-font)) * 0.8px);
-        --padding-column: calc((var(--size-line) - var(--size-font)) * 0.2px);
+        --padding-row: calc((var(--ui-size-line) - var(--ui-size-font)) * 0.8px);
+        --padding-column: calc((var(--ui-size-line) - var(--ui-size-font)) * 0.2px);
     }
     `,
 };

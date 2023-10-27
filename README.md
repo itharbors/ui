@@ -3,7 +3,7 @@
 [![CI Status](https://github.com/itharbors/ui/actions/workflows/ci.yaml/badge.svg)](https://github.com/itharbors/ui/actions/workflows/ci.yaml)
 ![Typescript](https://img.shields.io/badge/Language-Typescript-blue.svg)
 
-一个通用的 Web UI 库。包含一些常用的基础组件，以及一些较为复杂的功能组件。
+一个通用的 Web UI 库。包含一些常用的基础组件，以及一些较为复杂的功能组件
 
 ## Install
 
@@ -16,7 +16,7 @@ npm install @itharbors/ui
 ### core
 [![NPM](https://img.shields.io/npm/v/@itharbors/ui-core)](https://www.npmjs.com/package/@itharbors/ui-core)
 
-这是一个没有功能的元素，所有 ui 元素都从这里开始创建。
+这是一个没有功能的元素，所有 ui 元素都从这里开始创建
 
 ```bash
 npm install @itharbors/ui-core

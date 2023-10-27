@@ -40,22 +40,48 @@ export class BaseElement extends HTMLElement {
         return {};
     }
 
+    /**
+     * 在这个 UI 元素内查询一个内部元素
+     * @param selector 
+     * @returns 
+     */
     querySelector(selector: string) {
         return this.shadowRoot.querySelector(selector);
     }
-    
+
+    /**
+     * 在这个 UI 元素内查询所有符合条件的内部元素
+     * @param selector 
+     * @returns 
+     */
     querySelectorAll(selector: string) {
         return this.shadowRoot.querySelectorAll(selector);
     }
 
+    /**
+     * 获取一个存储的属性
+     * @param key 
+     * @returns 
+     */
     getProperty<K extends string>(key: K): this['defaultData'][K] {
         return this.data.getProperty(key);
     }
 
+    /**
+     * 设置一个属性的值
+     * @param key 
+     * @param value 
+     * @returns 
+     */
     setProperty(key: string, value: any) {
         return this.data.setProperty(key, value);
     }
 
+    /**
+     * 触发一个自定义事件
+     * @param eventName 
+     * @param options 
+     */
     dispatch<T>(eventName: string, options?: EventInit & { detail: T }) {
         const targetOptions = {
             bubbles: true,
@@ -108,18 +134,20 @@ export class BaseElement extends HTMLElement {
         this.onMounted();
     }
 
-    distconnectedCallback() {
+    disconnectedCallback() {
         this.onRemoved();
     }
 }
 
 class DataManager<T extends BaseElement> {
     private root: BaseElement;
+
     constructor(root: T) {
         this.root = root;
     }
 
-    stash: { [key: string]: any } = {};
+    public stash: { [key: string]: any } = {};
+
     private propertyEventMap: { [key: string]: ((value: any, legacy: any) => void)[]} = {};
     touchProperty(key: string) {
         const legacy = this.getProperty(key);
