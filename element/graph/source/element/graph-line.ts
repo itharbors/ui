@@ -38,7 +38,6 @@ MyCustomSVGElementPrototype.sayHello = function() {
 //     prototype: MyCustomSVGElementPrototype,
 //     extends: 'g'
 // });
-// debugger
 // registerElement('graph-line', GraphLineElement);
 
 // 创建一个新的类，继承自 SVGGElement

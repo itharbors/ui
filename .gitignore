@@ -17,6 +17,7 @@ yarn.lock
 
 # 忽略构建输出和临时文件
 dist/
+bundle/
 build/
 .tmp/
 .cache/

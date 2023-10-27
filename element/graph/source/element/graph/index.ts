@@ -42,7 +42,7 @@ ${style.line}
 
     display: block;
 
-    border-radius: calc(var(--size-radius) * 1px);
+    border-radius: calc(var(--ui-size-radius) * 1px);
     border: 1px solid var(--border-color);
     box-sizing: border-box;
     background-color: var(--background-color);
@@ -655,7 +655,6 @@ export class GraphElement extends BaseElement {
         // 监听 lines 变化
         this.data.addPropertyListener('lines', (lines) => {
             requestAnimationFrame(() => {
-                debugger;
                 const offset = this.data.getProperty('offset');
                 const scale = this.data.getProperty('scale');
                 renderLines(this, offset, scale);
