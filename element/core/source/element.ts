@@ -45,7 +45,7 @@ export class BaseElement extends HTMLElement {
      * @param selector 
      * @returns 
      */
-    querySelector(selector: string) {
+    deepQuerySelector(selector: string) {
         return this.shadowRoot.querySelector(selector);
     }
 
@@ -54,7 +54,7 @@ export class BaseElement extends HTMLElement {
      * @param selector 
      * @returns 
      */
-    querySelectorAll(selector: string) {
+    deepQueryInternalSelectorAll(selector: string) {
         return this.shadowRoot.querySelectorAll(selector);
     }
 
