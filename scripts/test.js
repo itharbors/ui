@@ -35,7 +35,7 @@ const exec = async function() {
     for (let name of names) {
         const dir = join(elementDir, name);
         console.log(dir);
-        const installCode = await spawnNPMAsync(dir, 'ci');
+        const installCode = await spawnNPMAsync(dir, 'install');
         const mochaCode = await spawnNPXAsync(dir, 'mocha');
         if (installCode !== 0 || mochaCode !== 0) {
             process.exit(-1);

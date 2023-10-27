@@ -22,7 +22,7 @@ const exec = async function() {
 
     for (let name of names) {
         const dir = join(elementDir, name);
-        await spawnNPMAsync(dir, 'ci');
+        await spawnNPMAsync(dir, 'install');
         await spawnNPMAsync(dir, 'run', 'build');
     }
 
