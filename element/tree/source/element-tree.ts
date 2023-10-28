@@ -44,10 +44,11 @@ ${style.solid}
     background: none;
     padding: 0;
     line-height: var(--item-element-height);
+    overflow: hidden;
 }
 :host v-tree-item {
     height: var(--item-element-height);
-    transform: translateY(calc(var(--item-offset-line) * var(--item-element-height)))
+    transform: translateY(calc(var(--item-offset-line) * var(--item-offset)))
 }
 slot {
     display: none;
@@ -66,6 +67,8 @@ export class TreeElement extends BaseElement {
     get defaultData(): {
         // 每一行的高度
         lineHeight: number;
+        // 滚动的时候每一行的偏移量
+        lineOffset: number;
         // 顶部到渲染区域的偏移行数
         offsetLine: number;
         // 现在的区域最多可以显示几行
@@ -76,7 +79,8 @@ export class TreeElement extends BaseElement {
         cacheList: TreeItemRenderData[],
     } {
         return {
-            lineHeight: 24,
+            lineHeight: 0,
+            lineOffset: 0,
             offsetLine: 0,
             maxDisplayLine: 0,
             list: [],
@@ -97,9 +101,13 @@ export class TreeElement extends BaseElement {
             event.preventDefault();
 
             const lineHeight = this.getProperty('lineHeight');
+            const maxDisplayLine = this.getProperty('maxDisplayLine');
             const list = this.getProperty('list');
 
-            let offsetLine = Math.floor(this.scrollTop / lineHeight);
+            const offsetScroll = this.scrollTop / (this.scrollHeight - this.clientHeight);
+            const maxOffsetLine = list.length - maxDisplayLine;
+
+            let offsetLine = Math.round(maxOffsetLine * offsetScroll)// Math.floor(this.scrollTop / lineHeight);
             if (offsetLine > list.length - this.itemArray.length) {
                 offsetLine = list.length - this.itemArray.length;
             }
@@ -111,17 +119,25 @@ export class TreeElement extends BaseElement {
 
         this.data.addPropertyListener('offsetLine', (offsetLine) => {
             const lineHeight = this.getProperty('lineHeight');
-            this.setAttribute('style', `--item-element-height: ${lineHeight}px; --item-offset-line: ${offsetLine};`);
+            const lineOffset = this.getProperty('lineOffset');
+            this.setAttribute('style', `--item-element-height: ${lineHeight}px; --item-offset: ${lineOffset}px; --item-offset-line: ${offsetLine};`);
             this.applyItemData();
         });
 
         this.data.addPropertyListener('lineHeight', (lineHeight) => {
             const offsetLine = this.getProperty('offsetLine');
-            this.setAttribute('style', `--item-element-height: ${lineHeight}px; --item-offset-line: ${offsetLine};`);
+            const lineOffset = this.getProperty('lineOffset');
+            this.setAttribute('style', `--item-element-height: ${lineHeight}px; --item-offset: ${lineOffset}px; --item-offset-line: ${offsetLine};`);
+        });
+
+        this.data.addPropertyListener('lineOffset', (lineOffset) => {
+            const offsetLine = this.getProperty('offsetLine');
+            const lineHeight = this.getProperty('lineHeight');
+            this.setAttribute('style', `--item-element-height: ${lineHeight}px; --item-offset: ${lineOffset}px; --item-offset-line: ${offsetLine};`);
         });
 
         this.data.addPropertyListener('maxDisplayLine', (maxDisplayLine) => {
-            const length = maxDisplayLine + 2;
+            const length = maxDisplayLine;
             const $template = this.querySelector('v-tree-item');
             while (this.itemArray.length < length) {
                 const $item = $template ? $template.cloneNode(true) as TreeItemElement : document.createElement('v-tree-item') as TreeItemElement;
@@ -171,7 +187,16 @@ export class TreeElement extends BaseElement {
      * 更新后将显示/隐藏滚动条
      */
     private updateContentHeight() {
-        const height = this.getProperty('lineHeight') * this.getProperty('list').length;
+        const lineHeight = this.getProperty('lineHeight');
+        const list = this.getProperty('list');
+        let height = lineHeight * list.length;
+        let lineOffset = lineHeight;
+        let itemHeight = this.itemArray.length * lineHeight;
+        if (height > 1000000) {
+            lineOffset = (1000000 - itemHeight) / (height - itemHeight) * lineHeight;
+            height = 1000000;
+        }
+        this.setProperty('lineOffset', lineOffset);
         const $section = this.shadowRoot.querySelector('section.content')! as HTMLElement;
         $section.style.height = `${height}px`;
     }
@@ -241,9 +266,10 @@ export class TreeElement extends BaseElement {
     }
 
     onInit() {
-        this.setAttribute('style', `--item-element-height: ${24}px;`);
+        this.setProperty('lineHeight', 24);
         this.bindEvent();
         requestAnimationFrame(() => {
+            this.updateContentHeight();
             this.updateMaxDisplayLine();
         });
     }
