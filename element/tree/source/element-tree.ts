@@ -222,17 +222,25 @@ export class TreeElement extends BaseElement {
     /**
      * 将数据应用到所有 item 元素上
      */
+    private applyItemDateLock = false;
     private applyItemData() {
-        const offsetLine = this.getProperty('offsetLine');
-        const list = this.getProperty('list');
-        this.itemArray.forEach(($item, index) => {
-            const data = list[offsetLine + index];
-            if (data) {
-                $item.removeAttribute('hidden');
-                data && $item.setProperty('data', data);
-            } else {
-                $item.setAttribute('hidden', '');
-            }
+        if (this.applyItemDateLock) {
+            return;
+        }
+        this.applyItemDateLock = true;
+        requestAnimationFrame(() => {
+            this.applyItemDateLock = false;
+            const offsetLine = this.getProperty('offsetLine');
+            const list = this.getProperty('list');
+            this.itemArray.forEach(($item, index) => {
+                const data = list[offsetLine + index];
+                if (data) {
+                    $item.removeAttribute('hidden');
+                    data && $item.setProperty('data', data);
+                } else {
+                    $item.setAttribute('hidden', '');
+                }
+            });
         });
     }
 

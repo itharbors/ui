@@ -11,8 +11,15 @@
 <body>
 
   <v-tree class="console"></v-tree>
-
   <v-tree class="file"></v-tree>
+  <v-tree class="custom">
+    <v-tree-item>
+      <span ref="tab"></span>
+      <svg ref="arrow" width="12" xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M112 184l144 144 144-144"/></svg>
+      <span ref="name"></span>
+      <span ref="right"></span>
+    </v-tree-item>
+  </v-tree>
 
   <script type="module">
     import './ui-tree.esm.js';
@@ -24,6 +31,10 @@
     import { initFileElement } from './file.esm.js';
     const $file = document.querySelector('v-tree.file');
     initFileElement($file);
+
+    import { initCustomElement } from './custom.esm.js';
+    const $custom = document.querySelector('v-tree.custom');
+    initCustomElement($custom);
   </script>
 </body>
 </html>
