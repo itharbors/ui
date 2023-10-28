@@ -15,7 +15,7 @@ const spawnAsync = function(...cmd) {
 
 const exec = async function() {
     await spawnAsync('tsc');
-    // await spawnAsync('esbuild', './dist/index.js', '--bundle', '--outfile=./bundle/ui-core.esm.js');
+    await spawnAsync('esbuild', './dist/index.js', '--bundle', '--outfile=./bundle/ui-tree.esm.js');
 };
 
 exec();
