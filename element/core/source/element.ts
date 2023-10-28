@@ -63,7 +63,7 @@ export class BaseElement extends HTMLElement {
      * @param key 
      * @returns 
      */
-    getProperty<K extends string>(key: K): this['defaultData'][K] {
+    getProperty<K extends keyof this['defaultData']>(key: K): this['defaultData'][K] {
         return this.data.getProperty(key);
     }
 
@@ -73,7 +73,7 @@ export class BaseElement extends HTMLElement {
      * @param value 
      * @returns 
      */
-    setProperty(key: string, value: any) {
+    setProperty<K extends keyof this['defaultData']>(key: K, value: this['defaultData'][K]) {
         return this.data.setProperty(key, value);
     }
 
@@ -99,12 +99,6 @@ export class BaseElement extends HTMLElement {
         // for (let key in this.listener.attrs) {
         //     this.data.addAttributeListener(key, this.listener.attrs[key]);
         // }
-        for (let key in this.defaultData) {
-            if (key in this.data.stash) {
-                continue;
-            }
-            this.data.stash[key] = JSON.parse(JSON.stringify(this.defaultData[key]));
-        }
         
         this.onInit();
         if (this.isConnected) {
@@ -116,7 +110,7 @@ export class BaseElement extends HTMLElement {
     protected onMounted() {};
     protected onRemoved() {};
 
-    public data = new DataManager(this);
+    public data = new DataManager(this, this.defaultData);
 
     public shadowRoot!: ShadowRoot;
 
@@ -142,21 +136,27 @@ export class BaseElement extends HTMLElement {
 class DataManager<T extends BaseElement> {
     private root: BaseElement;
 
-    constructor(root: T) {
+    public stash: T['defaultData'];
+
+    constructor(root: T, data: T['defaultData']) {
         this.root = root;
+        const stash: Partial<T['defaultData']> = {};
+
+        for (let key in data) {
+            stash[key] = JSON.parse(JSON.stringify(data[key]));
+        }
+        this.stash = stash as T['defaultData'];
     }
 
-    public stash: { [key: string]: any } = {};
-
-    private propertyEventMap: { [key: string]: ((value: any, legacy: any) => void)[]} = {};
-    touchProperty(key: string) {
+    private propertyEventMap: Partial<Record<keyof T['defaultData'], ((value: any, legacy: any) => void)[]>> = {};
+    touchProperty<K extends keyof T['defaultData']>(key: K) {
         const legacy = this.getProperty(key);
         this.emitProperty(key, legacy, legacy);
     }
-    getProperty<K extends string>(key: K): T['defaultData'][K] {
+    getProperty<K extends keyof T['defaultData']>(key: K): T['defaultData'][K] {
         return this.stash[key];
     }
-    setProperty(key: string, value: any) {
+    setProperty<K extends keyof T['defaultData']>(key: K, value: T['defaultData'][K]) {
         const legacy = this.stash[key];
         if (this.stash[key] === value) {
             return;
@@ -164,11 +164,11 @@ class DataManager<T extends BaseElement> {
         this.stash[key] = value;
         this.emitProperty(key, value, legacy);
     }
-    addPropertyListener(key: string, handle: (value: any, legacy: any) => void) {
+    addPropertyListener<K extends keyof T['defaultData']>(key: K, handle: (value: T['defaultData'][K], legacy: T['defaultData'][K]) => void) {
         const list = this.propertyEventMap[key] = this.propertyEventMap[key] || [];
         list.push(handle);
     }
-    removePropertyListener(key: string, handle: (value: any, legacy: any) => void) {
+    removePropertyListener<K extends keyof T['defaultData']>(key: K, handle: (value: T['defaultData'][K], legacy: T['defaultData'][K]) => void) {
         const list = this.propertyEventMap[key];
         if (!list) {
             return;
@@ -178,7 +178,7 @@ class DataManager<T extends BaseElement> {
             list.splice(index, 1);
         }
     }
-    emitProperty(key: string, value: any, legacy: any) {
+    emitProperty<K extends keyof T['defaultData']>(key: K, value: T['defaultData'][K], legacy: T['defaultData'][K]) {
         const list = this.propertyEventMap[key];
         if (!list) {
             return;
