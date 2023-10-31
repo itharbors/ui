@@ -1,0 +1,13 @@
+section {
+    width: 960px;
+    margin: auto;
+}
+a {
+    color: #ccc;
+}
+h2 {
+    margin-bottom: 4px;
+}
+main > div {
+    margin-left: 20px;
+}

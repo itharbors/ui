@@ -1,0 +1,6 @@
+section[name="content"] {
+    width: 960px;
+    margin: 0 auto;
+    border-radius: calc(var(--ui-size-radius) * 1px);
+    overflow: hidden;
+}

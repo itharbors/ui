@@ -1,0 +1,54 @@
+html, body { height: 100%; margin: 0; }
+body {
+    /* 基础颜色 */
+    --ui-color-primary: #1677ff;
+
+    --ui-color-default: #fff;
+    --ui-color-success: #00b578;
+    --ui-color-danger: #ff3141;
+    --ui-color-warn: #ff8f1f;
+
+    /* 基础颜色作为背景色的时候，需要一个对比色 */
+    --ui-color-primary-contrast: #fff;
+
+    --ui-color-default-contrast: #333;
+    --ui-color-success-contrast: #fff;
+    --ui-color-danger-contrast: #fff;
+    --ui-color-warn-contrast: #fff;
+
+    /* 基础颜色作为背景色的时候，需要边框的颜色 */
+    --ui-color-primary-line: #1677ff;
+
+    --ui-color-default-line: #333;
+    --ui-color-success-line: #00b578;
+    --ui-color-danger-line: #ff3141;
+    --ui-color-warn-line: #ff8f1f;
+
+    --ui-size-line: 24;
+    --ui-size-font: 12;
+    --ui2-size-radius: 40;
+
+    --ui-anim-duration: 0.3s;
+}
+
+body {
+    color: var(--ui-color-default-contrast);
+    background: var(--ui-color-default);
+}
+
+h1 {
+    line-height: calc(var(--ui-size-line) * 2px);
+}
+
+h2 {
+    line-height: calc(var(--ui-size-line) * 1.5px);
+}
+
+a {
+    text-decoration: none;
+    color: var(--ui-color-default-contrast);
+}
+
+a:visited {
+    color: var(--ui-color-default-contrast);
+}
