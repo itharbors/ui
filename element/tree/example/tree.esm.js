@@ -1,6 +1,6 @@
 'use strict';
 
-export function initFileElement($tree) {
+export function initTreeElement($tree) {
     const treeList = [
         {
             name: 'test-1',

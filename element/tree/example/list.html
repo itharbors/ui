@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>UI Tree - List</title>
+    <link rel="stylesheet" type="text/css" href="/public/base.css">
+    <link rel="stylesheet" type="text/css" href="/public/item.css">
+    <style>
+        v-tree {
+            width: 400px;
+            height: 400px;
+        }
+
+        section[name="content"]>section {
+            display: flex;
+        }
+    </style>
+</head>
+
+<body>
+    <section name="content">
+        <h1>100w 条数据展示</h1>
+        <section>
+            <v-tree class="console"></v-tree>
+        </section>
+
+    </section>
+
+    <script type="module">
+        import './ui-tree.esm.js';
+        import { initConsoleElement } from './list.esm.js';
+        const $console = document.querySelector('v-tree.console');
+        initConsoleElement($console);
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>UI Tree - Tree</title>
+    <link rel="stylesheet" type="text/css" href="/public/base.css">
+    <link rel="stylesheet" type="text/css" href="/public/item.css">
+    <style>
+        v-tree {
+            width: 400px;
+            height: 400px;
+            border: 1px solid #333;
+        }
+
+        section[name="content"]>section {
+            display: flex;
+        }
+    </style>
+</head>
+
+<body>
+
+    <section name="content">
+        <h1>树形列表展示</h1>
+        <section>
+            <v-tree class="tree"></v-tree>
+        </section>
+    </section>
+
+    <script type="module">
+        import './ui-tree.esm.js';
+        import { initTreeElement } from './tree.esm.js';
+        const $file = document.querySelector('v-tree.tree');
+        initTreeElement($file);
+    </script>
+</body>
+
+</html>

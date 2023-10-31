@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>UI Tree - Custom</title>
+    <link rel="stylesheet" type="text/css" href="/public/base.css">
+    <link rel="stylesheet" type="text/css" href="/public/item.css">
+    <style>
+        v-tree {
+            width: 400px;
+            height: 400px;
+            border: 1px solid #333;
+        }
+
+        section[name="content"]>section {
+            display: flex;
+        }
+    </style>
+</head>
+
+<body>
+
+    <section name="content">
+        <h1>树形列表展示</h1>
+        <section>
+            <v-tree class="custom">
+                <v-tree-item>
+                    <span ref="tab"></span>
+                    <svg ref="arrow" width="12" xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512">
+                        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48"
+                            d="M112 184l144 144 144-144" />
+                    </svg>
+                    <span ref="name"></span>
+                    <span ref="right"></span>
+                </v-tree-item>
+            </v-tree>
+        </section>
+    </section>
+
+    <script type="module">
+        import './ui-tree.esm.js';
+        import { initCustomElement } from './custom.esm.js';
+        const $custom = document.querySelector('v-tree.custom');
+        initCustomElement($custom);
+    </script>
+</body>
+
+</html>

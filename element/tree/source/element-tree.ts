@@ -31,9 +31,12 @@ const STYLE = /*css*/`
 ${style.solid}
 :host {
     display: block;
-    line-height: var(--item-element-height);
+    border: 1px solid;
     box-sizing: border-box;
     overflow: auto;
+    border-radius: calc(var(--ui-size-radius) * 1px);
+    border-color: var(--ui-color-default-line);
+    color: var(--ui-color-default-contrast);
 }
 [hidden] {
     display: none;
@@ -47,6 +50,7 @@ ${style.solid}
     overflow: hidden;
 }
 :host v-tree-item {
+    line-height: var(--item-element-height);
     height: var(--item-element-height);
     transform: translateY(calc(var(--item-offset-line) * var(--item-offset)))
 }
@@ -89,12 +93,12 @@ export class TreeElement extends BaseElement {
     }
 
     private itemArray: TreeItemElement[] = [];
+    private $section!: HTMLElement;
 
     /**
      * 绑定内部事件
      */
     private bindEvent() {
-        const $section = this.shadowRoot.querySelector('section.content')! as HTMLElement;
 
         this.addEventListener('scroll', (event) => {
             event.stopPropagation();
@@ -120,20 +124,23 @@ export class TreeElement extends BaseElement {
         this.data.addPropertyListener('offsetLine', (offsetLine) => {
             const lineHeight = this.getProperty('lineHeight');
             const lineOffset = this.getProperty('lineOffset');
-            this.setAttribute('style', `--item-element-height: ${lineHeight}px; --item-offset: ${lineOffset}px; --item-offset-line: ${offsetLine};`);
+            const height = this.$section.style.height;
+            this.$section.setAttribute('style', `--item-element-height: ${lineHeight}px; --item-offset: ${lineOffset}px; --item-offset-line: ${offsetLine}; height: ${height};`);
             this.applyItemData();
         });
 
         this.data.addPropertyListener('lineHeight', (lineHeight) => {
             const offsetLine = this.getProperty('offsetLine');
             const lineOffset = this.getProperty('lineOffset');
-            this.setAttribute('style', `--item-element-height: ${lineHeight}px; --item-offset: ${lineOffset}px; --item-offset-line: ${offsetLine};`);
+            const height = this.$section.style.height;
+            this.$section.setAttribute('style', `--item-element-height: ${lineHeight}px; --item-offset: ${lineOffset}px; --item-offset-line: ${offsetLine}; height: ${height};`);
         });
 
         this.data.addPropertyListener('lineOffset', (lineOffset) => {
             const offsetLine = this.getProperty('offsetLine');
             const lineHeight = this.getProperty('lineHeight');
-            this.setAttribute('style', `--item-element-height: ${lineHeight}px; --item-offset: ${lineOffset}px; --item-offset-line: ${offsetLine};`);
+            const height = this.$section.style.height;
+            this.$section.setAttribute('style', `--item-element-height: ${lineHeight}px; --item-offset: ${lineOffset}px; --item-offset-line: ${offsetLine}; height: ${height};`);
         });
 
         this.data.addPropertyListener('maxDisplayLine', (maxDisplayLine) => {
@@ -142,7 +149,7 @@ export class TreeElement extends BaseElement {
             while (this.itemArray.length < length) {
                 const $item = $template ? $template.cloneNode(true) as TreeItemElement : document.createElement('v-tree-item') as TreeItemElement;
                 this.itemArray.push($item);
-                $section.appendChild($item);
+                this.$section.appendChild($item);
             }
             while (this.itemArray.length > length) {
                 const elem = this.itemArray.pop();
@@ -197,8 +204,7 @@ export class TreeElement extends BaseElement {
             height = 1000000;
         }
         this.setProperty('lineOffset', lineOffset);
-        const $section = this.shadowRoot.querySelector('section.content')! as HTMLElement;
-        $section.style.height = `${height}px`;
+        this.$section.style.height = `${height}px`;
     }
 
     /**
@@ -274,6 +280,8 @@ export class TreeElement extends BaseElement {
     }
 
     onInit() {
+        this.$section = this.shadowRoot.querySelector('section.content')! as HTMLElement;
+
         this.setProperty('lineHeight', 24);
         this.bindEvent();
         requestAnimationFrame(() => {
