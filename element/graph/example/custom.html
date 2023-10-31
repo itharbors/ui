@@ -1,34 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <title>My Website</title>
-  <style>
-    html, body { height: 100%; margin: 0; }
-    body { display: flex; }
-    v-graph { flex: 1; }
-  </style>
+    <meta charset="UTF-8">
+    <title>My Website</title>
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+        }
+
+        body {
+            display: flex;
+        }
+
+        v-graph {
+            flex: 1;
+        }
+    </style>
 </head>
+
 <body>
-  <v-graph type="test-graph"></v-graph>
+    <v-graph type="test-graph"></v-graph>
 
-  <script type="module">
-    import { registerNode, registerGraphOption } from './ui-graph.esm.js';
-    import { data } from './index-data.esm.js';
+    <script type="module">
+        import { registerNode, registerGraphOption } from './ui-graph.esm.js';
+        import { data } from './custom-data.esm.js';
 
-    registerGraphOption('test-graph', {
-        type: 'mesh',
-        meshSize: 70,
-        meshColor: '#333',
-        backgroundColor: '#1f1f1f',
-        originPoint: true,
-        originColor: '#555',
-    });
+        registerGraphOption('test-graph', {
+            type: 'mesh',
+            meshSize: 70,
+            meshColor: '#333',
+            backgroundColor: '#1f1f1f',
+            originPoint: true,
+            originColor: '#555',
+        });
 
-    ////////////// test-a
+        ////////////// test-a
 
-    registerNode('test-graph', 'test-a', {
-      template: /*html*/`
+        registerNode('test-graph', 'test-a', {
+            template: /*html*/`
         <header>Test A</header>
         <section>
           <div class="left">
@@ -45,7 +57,7 @@
         </section>
       `,
 
-      style: /*css*/`
+            style: /*css*/`
         :host {
           background: #2b2b2b99;
           border: 1px solid #333;
@@ -100,23 +112,23 @@
         }
       `,
 
-      onInit(details) {
-        this.bindDefaultParamEvent();
-        this.bindDefaultMoveEvent();
-        this.querySelector('.center > div').innerHTML = details.label;
-      },
+            onInit(details) {
+                this.bindDefaultParamEvent();
+                this.bindDefaultMoveEvent();
+                this.shadowRoot.querySelector('.center > div').innerHTML = details.label;
+            },
 
-      onMounted() {},
+            onMounted() { },
 
-      onUpdate() {},
+            onUpdate() { },
 
-      onRemoved() {},
-    });
+            onRemoved() { },
+        });
 
-    ////////////// test-b
+        ////////////// test-b
 
-    registerNode('test-graph', 'test-b', {
-      template: /*html*/`
+        registerNode('test-graph', 'test-b', {
+            template: /*html*/`
         <header>Test B</header>
         <section>
           <div class="up">
@@ -133,7 +145,7 @@
         </section>
       `,
 
-      style: /*css*/`
+            style: /*css*/`
         :host {
           background: #2b2b2b99;
           border: 1px solid #333;
@@ -200,34 +212,34 @@
         }
       `,
 
-      onInit(details) {
-        this.bindDefaultParamEvent();
-        this.bindDefaultMoveEvent();
-        this.querySelector('.center > div').innerHTML = details.label;
-        this.querySelector('section').addEventListener('mousedown', (event) => {
-          event.stopPropagation();
-          event.preventDefault();
+            onInit(details) {
+                this.bindDefaultParamEvent();
+                this.bindDefaultMoveEvent();
+                this.shadowRoot.querySelector('.center > div').innerHTML = details.label;
+                this.shadowRoot.querySelector('section').addEventListener('mousedown', (event) => {
+                    event.stopPropagation();
+                    event.preventDefault();
+                });
+            },
+
+            onMounted() { },
+
+            onUpdate() { },
+
+            onRemoved() { },
         });
-      },
 
-      onMounted() {},
+        ////////////// test-c
 
-      onUpdate() {},
-
-      onRemoved() {},
-    });
-
-    ////////////// test-c
-
-    registerNode('test-graph', 'test-c', {
-        template: /*html*/`
+        registerNode('test-graph', 'test-c', {
+            template: /*html*/`
           <header>Test C</header>
           <div>
             <div class="label"></div>
           </div>
         `,
 
-        style: /*css*/`
+            style: /*css*/`
           :host {
             background: #2b2b2b99;
             border: 1px solid #333;
@@ -250,31 +262,32 @@
           }
         `,
 
-        onInit(details) {
-          // this.bindDefaultParamEvent();
-          this.bindDefaultMoveEvent();
-          this.querySelector('.label').innerHTML = details.label;
-          this.addEventListener('mousedown', (event) => {
-            if (event.button !== 2) {
-              return;
-            }
-            event.stopPropagation();
-            event.preventDefault();
-            this.startConnect('straight');
-          });
-        },
+            onInit(details) {
+                // this.bindDefaultParamEvent();
+                this.bindDefaultMoveEvent();
+                this.shadowRoot.querySelector('.label').innerHTML = details.label;
+                this.addEventListener('mousedown', (event) => {
+                    if (event.button !== 2) {
+                        return;
+                    }
+                    event.stopPropagation();
+                    event.preventDefault();
+                    this.startConnect('straight');
+                });
+            },
 
-        onMounted() {},
+            onMounted() { },
 
-        onUpdate() {},
+            onUpdate() { },
 
-        onRemoved() {},
-    });
+            onRemoved() { },
+        });
 
-    const $graph = document.querySelector('v-graph');
-    for (let key in data) {
-      $graph.data.setProperty(key, data[key]);
-    }
-  </script>
+        const $graph = document.querySelector('v-graph');
+        for (let key in data) {
+            $graph.data.setProperty(key, data[key]);
+        }
+    </script>
 </body>
+
 </html>
