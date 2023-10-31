@@ -93,13 +93,13 @@ registerNode('flow-chart', 'node', {
         this.bindDefaultMoveEvent();
 
         const updateHTML = (HTML: string) => {
-            this.querySelector(`.content`)!.innerHTML = HTML;
+            this.shadowRoot!.querySelector(`.content`)!.innerHTML = HTML;
         }
         this.data.addPropertyListener('details', (details) => {
             updateHTML(details.label);
         });
     },
     onUpdate(details) {
-        this.querySelector(`.content`)!.innerHTML = details.label;
+        this.shadowRoot!.querySelector(`.content`)!.innerHTML = details.label;
     },
 });

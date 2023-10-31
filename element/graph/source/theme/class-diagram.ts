@@ -362,8 +362,8 @@ registerNode('class-diagram', 'class-node', {
     `,
 
     onInit(details) {
-        const $menu = this.querySelector('.menu')!;
-        this.querySelector('.class-name')!.innerHTML = details.name;
+        const $menu = this.shadowRoot!.querySelector('.menu')!;
+        this.shadowRoot!.querySelector('.class-name')!.innerHTML = details.name;
 
         this.addEventListener('mousedown', (event) => {
             event.stopPropagation();
@@ -403,7 +403,7 @@ registerNode('class-diagram', 'class-node', {
             for (const item of list) {
             HTML += `<div>${item}</div>`;
             }
-            this.querySelector(`.${type}`)!.innerHTML = HTML;
+            this.shadowRoot!.querySelector(`.${type}`)!.innerHTML = HTML;
         }
         this.data.addPropertyListener('details', (details) => {
             updateHTML('property', details.property);

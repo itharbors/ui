@@ -175,7 +175,7 @@ export class GraphNodeElement extends BaseElement {
      * 绑定默认的参数连接事件
      */
     bindDefaultParamEvent() {
-        const $paramList = this.querySelectorAll(`v-graph-node-param`);
+        const $paramList = this.shadowRoot.querySelectorAll(`v-graph-node-param`);
         Array.prototype.forEach.call($paramList, ($param) => {
             $param.addEventListener('mousedown', (event: MouseEvent) => {
                 event.stopPropagation();

@@ -17,7 +17,7 @@ export function generateUUID() {
  * @returns 
  */
 export function getParamElementOffset($node: HTMLElement, selector: string) {
-    const $param = $node.querySelector(selector);
+    const $param = $node.shadowRoot!.querySelector(selector);
     if (!$param) {
         return null;
     }
@@ -41,11 +41,11 @@ export function getParamElementOffset($node: HTMLElement, selector: string) {
  * @returns 
  */
 export function queryParamInfo($root: HTMLElement, node: string, param?: string) {
-    const $node = $root.querySelector(`#nodes > v-graph-node[node-uuid="${node}"]`);
+    const $node = $root.shadowRoot!.querySelector(`#nodes > v-graph-node[node-uuid="${node}"]`);
     if (!$node) {
         return;
     }
-    const $param = $node.querySelector(`v-graph-node-param[name="${param}"]`);
+    const $param = $node.shadowRoot!.querySelector(`v-graph-node-param[name="${param}"]`);
     if (!$param) {
         return;
     }

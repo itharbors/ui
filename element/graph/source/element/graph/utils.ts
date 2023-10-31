@@ -98,11 +98,11 @@ export function renderMesh($elem: GraphElement, ctx: CanvasRenderingContext2D, b
 const refreshFlag = new Set();
 export const renderNodes = requestAnimtionFrameThrottling(_renderNodes);
 function _renderNodes($elem: GraphElement, offset: {x: number, y: number}, scale: number) {
-    const $nodes = $elem.querySelectorAll('#nodes > v-graph-node');
+    const $nodes = $elem.shadowRoot!.querySelectorAll('#nodes > v-graph-node');
     const nodes = $elem.data.getProperty('nodes');
     const graphType = $elem.data.getAttribute('type') || 'default';
 
-    const $root = $elem.querySelector('#nodes')!;
+    const $root = $elem.shadowRoot!.querySelector('#nodes')!;
 
     // 循环已有的 HTML 节点
     for (let i = 0; i < $nodes.length; i++) {
@@ -194,7 +194,7 @@ export function renderLine(graphType: string, $line: SVGGElement, line: LineInfo
 
 export const renderLines = requestAnimtionFrameThrottling(_renderLines);
 function _renderLines($elem: GraphElement, offset: {x: number, y: number }, scale: number) {
-    const $root = $elem.querySelector('#lines')!;
+    const $root = $elem.shadowRoot!.querySelector('#lines')!;
     if ($root.hasAttribute('hidden')) {
         return;
     }
@@ -202,7 +202,7 @@ function _renderLines($elem: GraphElement, offset: {x: number, y: number }, scal
     const graphType = $elem.data.getAttribute('type') || 'default';
     const lines = $elem.data.getProperty('lines');
     const nodes = $elem.data.getProperty('nodes');
-    const $lines = $elem.querySelectorAll('#lines > g[line-uuid]');
+    const $lines = $elem.shadowRoot!.querySelectorAll('#lines > g[line-uuid]');
 
     const refreshFlag = new Set();
     for (let i = 0; i < $lines.length; i++) {
@@ -246,7 +246,7 @@ function _renderLines($elem: GraphElement, offset: {x: number, y: number }, scal
             ($line.getRootNode() as ShadowRoot).dispatchEvent(custom);
         });
 
-        const $style = $elem.querySelector(`style[line-type="${line.type}"]`);
+        const $style = $elem.shadowRoot!.querySelector(`style[line-type="${line.type}"]`);
         if (!$style) {
             const $style = document.createElement('style');
             $style.setAttribute('line-type', line.type);
@@ -444,7 +444,7 @@ export function bindEventListener($elem: GraphElement) {
                     y: event.pageY,
                 };
 
-                const $root = $elem.querySelector('#lines')!;
+                const $root = $elem.shadowRoot!.querySelector('#lines')!;
                 $root.setAttribute('hidden', '');
 
                 const mousemove = (event: MouseEvent) => {
@@ -505,7 +505,7 @@ export function bindEventListener($elem: GraphElement) {
         let t = false;
         let at = false;
 
-        const $root = $elem.querySelector('#lines')!;
+        const $root = $elem.shadowRoot!.querySelector('#lines')!;
         $root.setAttribute('hidden', '');
 
         const scale = $elem.getProperty('scale');
@@ -565,7 +565,7 @@ export function bindEventListener($elem: GraphElement) {
             }
             stopmove();
 
-            const $root = $elem.querySelector('#lines')!;
+            const $root = $elem.shadowRoot!.querySelector('#lines')!;
             $root.removeAttribute('hidden');
             renderLines($elem, offset, scale);
         }

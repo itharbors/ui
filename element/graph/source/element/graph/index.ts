@@ -5,7 +5,7 @@ import type { NodeInfo, LineInfo, SelectNodeInfo, SelectLineInfo } from '../../i
 import { registerElement, BaseElement, style } from '@itharbors/ui-core';
 import { generateUUID, queryParamInfo } from '../utils';
 import { renderMesh, renderLines, renderNodes, bindEventListener, resizeCanvas, nodeElementMap } from './utils';
-import { queryGraphFliter, queryGraphOption, eventEmmiter } from '../../manager';
+import { queryGraphFliter, queryGraphOption, eventEmitter } from '../../manager';
 import {
     ConnectNodeDetail,
 
@@ -234,7 +234,7 @@ export class GraphElement extends BaseElement {
      * @param details 
      * @returns 
      */
-    setNodeDetai(id: string, details: { [key: string]: any }) {
+    setNodeDetail(id: string, details: { [key: string]: any }) {
         const nodes = this.getProperty('nodes');
         const node = nodes[id];
         if (!node) {
@@ -253,7 +253,7 @@ export class GraphElement extends BaseElement {
      * 获取一个节点的 details
      * @param id 
      */
-    getNodeDetai(id: string) {
+    getNodeDetail(id: string) {
         const nodes = this.getProperty('nodes');
         const node = nodes[id];
         return node ? node.details : '';
@@ -275,7 +275,7 @@ export class GraphElement extends BaseElement {
      * @returns 
      */
     queryNodeElement(id: string) {
-        const $node = this.querySelector(`#nodes > v-graph-node[node-uuid="${id}"]`);
+        const $node = this.shadowRoot.querySelector(`#nodes > v-graph-node[node-uuid="${id}"]`);
         return $node;
     }
 
@@ -393,7 +393,7 @@ export class GraphElement extends BaseElement {
      * @returns 
      */
     queryLineElement(id: string) {
-        const $line = this.querySelector(`#lines > g[line-uuid="${id}"]`);
+        const $line = this.shadowRoot.querySelector(`#lines > g[line-uuid="${id}"]`);
         return $line;
     }
 
@@ -401,8 +401,8 @@ export class GraphElement extends BaseElement {
      * 清空数据
      */
     clear() {
-        this.setProperty('nodes', []);
-        this.setProperty('lines', []);
+        this.setProperty('nodes', this["defaultData"]["nodes"]);
+        this.setProperty('lines', this["defaultData"]["lines"]);
     }
 
     /**
@@ -590,7 +590,7 @@ export class GraphElement extends BaseElement {
         bindEventListener(this);
 
         // 初始化数据
-        const $canvas = this.querySelector('canvas')! as HTMLCanvasElement;
+        const $canvas = this.shadowRoot.querySelector('canvas')! as HTMLCanvasElement;
         const ctx = $canvas.getContext('2d')!;
 
         const refresh = requestAnimtionFrameThrottling(() => {
@@ -618,7 +618,7 @@ export class GraphElement extends BaseElement {
             // renderLines(this, offset, scale);
         });
 
-        const $domBox = this.querySelector('#dom-box')!;
+        const $domBox = this.shadowRoot.querySelector('#dom-box')!;
         // 监听 scale 变化
         this.data.addPropertyListener('scale', (scale) => {
             refreshWithoutData();
@@ -629,8 +629,8 @@ export class GraphElement extends BaseElement {
             refreshWithoutData();
         });
 
-        eventEmmiter.addListener('node-registered', (graph, type) => {
-            const $nodes = this.querySelectorAll('#nodes > v-graph-node');
+        eventEmitter.addListener('node-registered', (graph, type) => {
+            const $nodes = this.shadowRoot.querySelectorAll('#nodes > v-graph-node');
             const nodes = this.data.getProperty('nodes');
             // 循环已有的 HTML 节点
             for (let i = 0; i < $nodes.length; i++) {
@@ -662,7 +662,7 @@ export class GraphElement extends BaseElement {
         });
 
         // 监听 selectBox 变化，框选检测
-        const $selectBox = this.querySelector('.select-box')!;
+        const $selectBox = this.shadowRoot.querySelector('.select-box')!;
         this.data.addPropertyListener('selectBox', (selectBox) => {
             // 设置遮罩
             $selectBox.setAttribute('style', `top: ${selectBox.y}px; left: ${selectBox.x}px; width: ${selectBox.w}px; height: ${selectBox.h}px;`);
