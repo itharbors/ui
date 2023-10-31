@@ -124,13 +124,13 @@ export class LineEvent extends CustomEvent {
     }
 }
 
-type EventEmmiterType = string;
-type EventEmmiterHnadler<T extends any[] = any[]> = (...args: T) => void;
+type EventEmitterType = string;
+type EventEmitterHandler<T extends any[] = any[]> = (...args: T) => void;
 
-export class EventEmmiter {
-    private _handleMap: Map<string, EventEmmiterHnadler[]> = new Map();
+export class EventEmitter {
+    private _handleMap: Map<string, EventEmitterHandler[]> = new Map();
 
-    public emit(channel: EventEmmiterType, ...args: any[]) {
+    public emit(channel: EventEmitterType, ...args: any[]) {
         if (!this._handleMap.has(channel)) {
             this._handleMap.set(channel, []);
         }
@@ -140,7 +140,7 @@ export class EventEmmiter {
         }));
     }
 
-    public addListener(channel: EventEmmiterType, handler: EventEmmiterHnadler) {
+    public addListener(channel: EventEmitterType, handler: EventEmitterHandler) {
         if (!this._handleMap.has(channel)) {
             this._handleMap.set(channel, []);
         }
@@ -150,7 +150,7 @@ export class EventEmmiter {
         }
     }
 
-    public removeListener(channel: EventEmmiterType, handler: EventEmmiterHnadler) {
+    public removeListener(channel: EventEmitterType, handler: EventEmitterHandler) {
         if (!this._handleMap.has(channel)) {
             return;
         }

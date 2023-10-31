@@ -3,9 +3,9 @@
 import { LineInfo, NodeInfo, GraphOption } from './interface';
 import type { ParamConnectData } from './element/graph/data';
 import type { GraphNodeElement } from './element/graph-node';
-import { EventEmmiter } from './event';
+import { EventEmitter } from './event';
 
-export const eventEmmiter = new EventEmmiter();
+export const eventEmitter = new EventEmitter();
 
 /**
  * Type 管理器
@@ -71,7 +71,7 @@ export function registerGraphOption(graphType: string, option: GraphOption) {
     const graphInfo = graphTypeMap.get(graphType)!;
     graphInfo.option = option;
 
-    eventEmmiter.emit('graph-registered', graphType, option);
+    eventEmitter.emit('graph-registered', graphType, option);
 }
 
 export function queryGraphOption(graphType: string) {
@@ -90,7 +90,7 @@ export function registerNode(graphType: string, nodeType: string, option: NodeTy
     const graphInfo = graphTypeMap.get(graphType)!;
     graphInfo.nodeMap.set(nodeType, option);
 
-    eventEmmiter.emit('node-registered', graphType, nodeType, option);
+    eventEmitter.emit('node-registered', graphType, nodeType, option);
 }
 
 /**
@@ -131,7 +131,7 @@ export function registerLine(graphType: string, lineType: string, option: LineTy
     const graphInfo = graphTypeMap.get(graphType)!;
     graphInfo.lineMap.set(lineType, option);
 
-    eventEmmiter.emit('node-registered', graphType, lineType, option);
+    eventEmitter.emit('node-registered', graphType, lineType, option);
 }
 
 export function queryLine(graphType: string, lineType: string): LineTypeOption {
